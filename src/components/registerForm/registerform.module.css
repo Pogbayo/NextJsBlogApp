@@ -1,0 +1,47 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+  
+  .form input{
+    padding: 20px;
+    background-color: var(--bg);
+    color: var(--textColor);
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .form button{
+    padding: 20px;
+    cursor: pointer;
+    background-color: var(--btn);
+    color: var(--textColor);
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+  }
+  .error {
+    color: #e74c3c; /* Red color for error */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Success message styling */
+  .success {
+    color: #28a745; /* Green color for success */
+    background-color: #d4edda; /* Light green background */
+    border: 1px solid #c3e6cb; /* Light green border */
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
