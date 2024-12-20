@@ -12,38 +12,16 @@ export const LoginForm = () => {
     text: string;
   } | null>(null);
   const router = useRouter();
-  const { status } = useSession();
+  const { status } = useSession(); // Ensure you're accessing session data
 
-  // Function to refresh the session periodically
-  const refreshSession = async () => {
-    try {
-      await signIn("credentials", { redirect: false });
-    } catch (error) {
-      console.error("Error refreshing session:", error);
-    }
-  };
-
-  // Redirect authenticated users to the home page
+  // Redirect authenticated users to the homepage if logged in
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/");
+      router.push("/"); // Redirect to homepage after successful login
     }
   }, [status, router]);
-
-  // Set an interval to refresh the session every 60 seconds
-  useEffect(() => {
-    if (status === "authenticated") {
-      const interval = setInterval(() => {
-        refreshSession();
-      }, 60 * 1000); // Refresh every 60 seconds
-
-      return () => clearInterval(interval); // Clean up on unmount
-    }
-  }, [status]);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent the page from refreshing on form submission
-
+    event.preventDefault(); // Prevent page refresh on form submission
     setMessage(null); // Reset any previous messages
 
     const formData = new FormData(event.currentTarget); // Capture form inputs
@@ -55,18 +33,23 @@ export const LoginForm = () => {
       const result = await signIn("credentials", {
         userName,
         password,
-        redirect: false, // Prevent automatic redirection
+        redirect: false, // Prevent automatic redirection by NextAuth
       });
 
       // Handle authentication errors
-      if (result?.error) {
-        setMessage({ type: "error", text: result.error });
+      if (!result || result.error) {
+        setMessage({
+          type: "error",
+          text: result?.error || "An unknown error occurred.",
+        });
         return;
       }
 
       // Authentication was successful
       setMessage({ type: "success", text: "Login successful!" });
-      router.push("/"); // Redirect the user to the home page
+
+      // Trigger manual redirection after successful login
+      router.push("/"); // Redirect to homepage
     } catch (error) {
       console.error("Error during login:", error);
       setMessage({
@@ -82,12 +65,14 @@ export const LoginForm = () => {
       <input type="password" placeholder="Password" name="password" required />
 
       <button type="submit">Login</button>
+
       {/* Display error or success messages */}
       {message && (
         <p className={message.type === "error" ? styles.error : styles.success}>
           {message.text}
         </p>
       )}
+
       <Link href="/register">
         {"Don't have an account? "}
         <b>Register</b>

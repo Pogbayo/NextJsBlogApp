@@ -13,23 +13,23 @@ interface LinkType {
 }
 
 interface LinksProps {
-  session: sessionType | null; // Allow session to be null
+  session: sessionType | null;
 }
 
 const Links = ({ session }: LinksProps) => {
   const { data: sessionData } = useSession();
   const [sessionState, setSessionState] = useState<sessionType | null>(session);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (sessionData) {
-      // Ensure sessionData is properly assigned to sessionState
       setSessionState({
         user: sessionData.user
           ? {
-              name: sessionData.user.name || null, // Handle undefined or null name
+              name: sessionData.user.name || null,
               email: sessionData.user.email || "",
-              image: sessionData.user.image || null, // Handle undefined or null image
-              id: sessionData.user.id || "", // Handle undefined or null id
+              image: sessionData.user.image || null,
+              id: sessionData.user.id || "",
               isAdmin: sessionData.user.isAdmin || false,
             }
           : null,
@@ -42,6 +42,10 @@ const Links = ({ session }: LinksProps) => {
     signOut();
   };
 
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
   const links: LinkType[] = [
     { title: "HomePage", path: "/" },
     { title: "About", path: "/about" },
@@ -49,18 +53,18 @@ const Links = ({ session }: LinksProps) => {
     { title: "Blog", path: "/blog" },
   ];
 
-  const [open, setOpen] = useState<boolean>(false);
-
   return (
     <div className={styles.container}>
       <div className={styles.links}>
         {links.map((link) => (
-          <NavLink item={link} key={link.title} />
+          <NavLink item={link} key={link.title} onClick={closeMenu} />
         ))}
 
-        {/* Show Admin link only if the user is authenticated and an admin */}
         {sessionState?.user && sessionState.user.isAdmin && (
-          <NavLink item={{ title: "Admin", path: "/admin" }} />
+          <NavLink
+            item={{ title: "Admin", path: "/admin" }}
+            onClick={closeMenu}
+          />
         )}
 
         {sessionState?.user ? (
@@ -68,7 +72,10 @@ const Links = ({ session }: LinksProps) => {
             <button className={styles.logout}>Logout</button>
           </form>
         ) : (
-          <NavLink item={{ title: "Login", path: "/login" }} />
+          <NavLink
+            item={{ title: "Login", path: "/login" }}
+            onClick={closeMenu}
+          />
         )}
       </div>
 
@@ -81,16 +88,16 @@ const Links = ({ session }: LinksProps) => {
         onClick={() => setOpen((prev) => !prev)}
       />
 
-      {/* Mobile links */}
       {open && (
         <div className={styles.mobileLinks}>
           {links.map((link) => (
-            <NavLink item={link} key={link.title} />
+            <NavLink item={link} key={link.title} onClick={closeMenu} />
           ))}
-
-          {/* Show Admin link in mobile view only if the user is an admin */}
           {sessionState?.user && sessionState.user.isAdmin && (
-            <NavLink item={{ title: "Admin", path: "/admin" }} />
+            <NavLink
+              item={{ title: "Admin", path: "/admin" }}
+              onClick={closeMenu}
+            />
           )}
         </div>
       )}
