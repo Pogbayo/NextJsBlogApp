@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 const NavigationTestPage = () => {
   const router = useRouter();
   // const pathName = usePathname();

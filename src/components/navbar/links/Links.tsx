@@ -17,7 +17,7 @@ interface LinksProps {
 }
 
 const Links = ({ session }: LinksProps) => {
-  const { data: sessionData, status } = useSession();
+  const { data: sessionData } = useSession();
   const [sessionState, setSessionState] = useState<sessionType | null>(session);
 
   useEffect(() => {

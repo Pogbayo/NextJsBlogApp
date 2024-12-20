@@ -8,27 +8,27 @@ const LoginPage = () => {
   };
 
   // Handle credentials login
-  const handleCredentialsLogin = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault(); // Prevent default form submission behavior
+  // const handleCredentialsLogin = async (
+  //   event: React.FormEvent<HTMLFormElement>
+  // ) => {
+  //   event.preventDefault(); // Prevent default form submission behavior
 
-    const formData = new FormData(event.currentTarget); // Create FormData from the form
-    const userName = formData.get("userName") as string;
-    const password = formData.get("password") as string;
+  //   const formData = new FormData(event.currentTarget); // Create FormData from the form
+  //   const userName = formData.get("userName") as string;
+  //   const password = formData.get("password") as string;
 
-    const result = await signIn("credentials", {
-      redirect: false, // Prevent redirection for handling errors on the same page
-      userName,
-      password,
-    });
+  //   const result = await signIn("credentials", {
+  //     redirect: false, // Prevent redirection for handling errors on the same page
+  //     userName,
+  //     password,
+  //   });
 
-    if (result?.error) {
-      alert(`Login failed: ${result.error}`); // Display error message to user
-    } else {
-      alert("Login successful!");
-    }
-  };
+  //   if (result?.error) {
+  //     alert(`Login failed: ${result.error}`); // Display error message to user
+  //   } else {
+  //     alert("Login successful!");
+  //   }
+  // };
 
   return (
     <div className={styles.container}>

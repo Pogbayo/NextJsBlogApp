@@ -100,6 +100,7 @@ export const getUsers = async () =>{
     await connectToDb()
      const users= await User.find()
      return users
-} catch (error) {
+} catch (err) {
+  console.log(err)
    throw new Error('failed to fetch users!')
 }}

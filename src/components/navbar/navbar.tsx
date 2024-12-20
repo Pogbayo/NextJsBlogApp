@@ -2,7 +2,7 @@ import Link from "next/link";
 import Links from "./links/Links";
 import styles from "./navbar.module.css";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { config } from "@/app/api/auth/[...nextauth]/route";
 
 export interface sessionType {
   user: {
@@ -16,7 +16,7 @@ export interface sessionType {
 }
 
 const Navbar = async () => {
-  const session = (await getServerSession(authOptions)) as sessionType | null;
+  const session = (await getServerSession(config)) as sessionType | null;
 
   // console.log(session);
   return (
@@ -25,7 +25,7 @@ const Navbar = async () => {
         Spag
       </Link>
       <div>
-        <Links session={session} /> {/* session can be null */}
+        <Links session={session} />
       </div>
     </div>
   );

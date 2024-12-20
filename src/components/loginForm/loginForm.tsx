@@ -12,7 +12,7 @@ export const LoginForm = () => {
     text: string;
   } | null>(null);
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   // Function to refresh the session periodically
   const refreshSession = async () => {

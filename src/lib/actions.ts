@@ -4,7 +4,6 @@ import { Post, User } from "./models";
 import { revalidatePath } from "next/cache";
 // import {  signOut } from "next-auth/react";
 import bcrypt from "bcryptjs"
-import { signIn } from "next-auth/react";
 
 export const addPost = async (formData: FormData): Promise<void> => {
   const title = formData.get("title") as string;

@@ -9,7 +9,7 @@ const Home = () => {
           Welcome to Creative Thoughts Agency, where creativity meets insight to
           inspire, engage, and change the world. Our blog offers fresh stories,
           articles, and inspiration for thinkers, creators, and innovators
-          alike. Whether you're an aspiring writer, seasoned entrepreneur, or
+          alike. Whether you are an aspiring writer, seasoned entrepreneur, or
           someone who loves exploring new perspectives, we provide content that
           sparks curiosity and fuels creativity. From thought-provoking pieces
           to practical advice on navigating the digital world, we cover diverse

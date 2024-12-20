@@ -5,10 +5,11 @@ import { AdminPostForm } from "@/components/adminPostForm/adminPostForm";
 import { AdminUsers } from "@/components/adminUsers/adminUsers";
 import { AdminUserForm } from "@/components/adminUserForm/adminUserForm";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route"; // Adjust path if necessary
+import { config } from "../api/auth/[...nextauth]/route";
+// import { config } from "@/lib/auth.config";
 
 const AdminPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(config);
 
   if (!session) {
     return <div>You are not authenticated.</div>;
