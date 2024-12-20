@@ -53,6 +53,7 @@ export const getPost = async (slug: string) => {
   try {
     await connectToDb();
     const post = await Post.findOne({ slug });
+   
     return post;
   } catch (error) {
     console.error("Failed to fetch post:", error);

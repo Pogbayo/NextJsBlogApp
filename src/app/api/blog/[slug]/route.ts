@@ -4,7 +4,7 @@ import { Post } from "@/lib/models";
 import connectToDb from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
-// Correct typing for NextRequest
+// Correct typing for 
 export const GET = async (request: NextRequest, { params }: Params) => {
     const { slug } = params;
 

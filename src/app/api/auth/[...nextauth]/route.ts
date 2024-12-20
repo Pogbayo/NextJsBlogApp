@@ -1,3 +1,91 @@
+// // src/app/api/auth/[...nextauth]/route.ts
+// import NextAuth, { Session } from "next-auth";
+// import GitHubProvider from "next-auth/providers/github";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import bcrypt from "bcryptjs";
+// import { User } from "@/lib/models";
+// import connectToDb from "@/lib/utils";
+// import { NextApiRequest, NextApiResponse } from "next";  // Remove the duplicate import
+// import { JWT } from "next-auth/jwt";
+
+// // Define types for the user
+// export interface UserType {
+//   id: string;
+//   userName: string;
+//   email: string;
+//   isAdmin: boolean;
+// }
+
+// // NextAuth configuration
+// export const authOptions = {
+//   providers: [
+//     GitHubProvider({
+//       clientId: process.env.GITHUB_ID!,
+//       clientSecret: process.env.GITHUB_SECRET!,
+//     }),
+//     CredentialsProvider({
+//       name: "Credentials",
+//       credentials: {
+//         userName: { label: "Username", type: "text" },
+//         password: { label: "Password", type: "password" },
+//       },
+
+//       async authorize(credentials) {
+//         if (!credentials) throw new Error("No credentials provided");
+
+//         const { userName, password } = credentials;
+
+//         try {
+//           await connectToDb();
+//           const user = await User.findOne({ userName });
+//           if (!user) throw new Error("Invalid username or password");
+
+//           const isPasswordCorrect = await bcrypt.compare(password, user.password);
+//           if (!isPasswordCorrect) throw new Error("Invalid username or password");
+
+//           return {
+//             id: user._id.toString(),
+//             userName: user.userName,
+//             email: user.email,
+//             isAdmin: user.isAdmin || false,
+//           };
+//         } catch (err) {
+//           console.error("Login error: ", err);
+//           return null;
+//         }
+//       },
+//     }),
+//   ],
+
+//   secret: process.env.NEXTAUTH_SECRET,  // Secret placed here
+
+//   callbacks: {
+//     async session({ session, token }: { session: Session; token: JWT }) {
+//       session.user = {
+//         ...session.user,
+//         name: token.userName,
+//         id: token.id,
+//         email: token.email,
+//         isAdmin: token.isAdmin,
+//       };
+//       return session;
+//     },
+//     async jwt({ token, user }: { token: JWT; user?: UserType }) {
+//       if (user) {
+//         token.id = user.id;
+//         token.userName = user.userName;
+//         token.isAdmin = user.isAdmin;
+//       }
+//       return token;
+//     },
+//   },
+// };
+
+// // Export named handlers for GET and POST
+// export const GET = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, authOptions);
+// export const POST = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, authOptions);
+
+
 
 
 // import NextAuth from "next-auth";
@@ -69,6 +157,8 @@ export const config = {
       },
     }),
   ],
+    secret: process.env.NEXTAUTH_SECRET,  // Secret placed here
+
   callbacks: {
     async  session({ session, token }: { session: Session; token: JWT }) {
       session.user = {
