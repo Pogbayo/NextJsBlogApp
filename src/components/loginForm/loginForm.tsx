@@ -4,7 +4,7 @@ import styles from "./loginform.module.css";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
 export const LoginForm = () => {
   const [message, setMessage] = useState<{
@@ -12,31 +12,38 @@ export const LoginForm = () => {
     text: string;
   } | null>(null);
   const router = useRouter();
-  const { status } = useSession(); // Ensure you're accessing session data
+  // const { status } = useSession();
 
-  // Redirect authenticated users to the homepage if logged in
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     router.push("/");
+  //   }
+  // }, [status, router]);
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/"); // Redirect to homepage after successful login
-    }
-  }, [status, router]);
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent page refresh on form submission
-    setMessage(null); // Reset any previous messages
+    // Check for an active session
+    getSession().then((session) => {
+      if (session) {
+        router.push("/");
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const formData = new FormData(event.currentTarget); // Capture form inputs
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessage(null);
+
+    const formData = new FormData(event.currentTarget);
     const userName = formData.get("userName") as string;
     const password = formData.get("password") as string;
 
     try {
-      // Attempt to sign in with NextAuth credentials
       const result = await signIn("credentials", {
         userName,
         password,
-        redirect: false, // Prevent automatic redirection by NextAuth
+        redirect: false,
       });
 
-      // Handle authentication errors
       if (!result || result.error) {
         setMessage({
           type: "error",
@@ -45,11 +52,9 @@ export const LoginForm = () => {
         return;
       }
 
-      // Authentication was successful
       setMessage({ type: "success", text: "Login successful!" });
 
-      // Trigger manual redirection after successful login
-      router.push("/"); // Redirect to homepage
+      router.push("/");
     } catch (error) {
       console.error("Error during login:", error);
       setMessage({
