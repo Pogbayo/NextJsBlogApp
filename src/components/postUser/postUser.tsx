@@ -4,9 +4,7 @@ import { getUser, UserType } from "@/lib/data";
 
 const PostUser = async ({ userId }: UserType) => {
   const user = await getUser(userId);
-  // console.log("This is the single postUser:", user);
-  // console.log("Hi there", user.userName);
-  // console.log(userId);
+
   return (
     <div className={styles.container}>
       <Image
